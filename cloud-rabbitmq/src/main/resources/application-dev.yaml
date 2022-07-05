@@ -1,0 +1,60 @@
+#服务器端口
+server:
+  port: 8120
+
+cloud:
+  mq:
+    rabbit:
+      dev:
+        host: 127.0.0.1
+        port: 5672
+        username: guest
+        password: guest
+        virtual-host: /wk
+        # 开启消息确认
+        publisher-confirm-type: correlated
+        # 开启 Return机制
+        publisher-returns: true
+
+spring:
+  application:
+    name: multi-rabbitmq
+  main:
+    allow-bean-definition-overriding: true
+  rabbitmq:
+    first:
+      host: ${cloud.mq.rabbit.dev.host}
+      port: ${cloud.mq.rabbit.dev.port}
+      username: ${cloud.mq.rabbit.dev.username}
+      password: ${cloud.mq.rabbit.dev.password}
+      virtualHost: ${cloud.mq.rabbit.dev.virtual-host}
+      publisherConfirmType: ${cloud.mq.rabbit.dev.publisher-confirm-type}
+      publisherReturns: ${cloud.mq.rabbit.dev.publisher-returns}
+    second:
+      host: 127.0.0.1
+      port: 5672
+      username: guest
+      password: guest
+      virtualHost: /
+      publisherConfirmType: ${cloud.mq.rabbit.dev.publisher-confirm-type}
+      publisherReturns: ${cloud.mq.rabbit.dev.publisher-returns}
+
+mq:
+  channel:
+    exchange:
+      delay: test_delay
+      direct: test_direct
+      fanout: test_fanout
+      topic: test_topic
+    queue:
+      delayQueue: test_delay_queue
+      directQueue: test_direct_queue
+      fanoutQueue: test_fanout_queue
+      fanoutQueue2: test_fanout_queue2
+      topicQueue: test_topic_queue
+    retry:
+      openRetry: true
+      initialInterval: 2000
+      maxInterval: 60000
+      multiplier: 2
+      maxAttempts: 5
