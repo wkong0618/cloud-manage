@@ -1,6 +1,6 @@
 #服务器端口
 server:
-  port: 8121
+  port: 8122
 
 #数据源配置
 spring:
@@ -24,8 +24,32 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     username: root
     password: root
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    show-sql: falses
+    driverClassName: com.mysql.cj.jdbc.Driver
+    show-sql: true
+  shardingsphere:
+    datasource:
+      names: test
+      test:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+        username: root
+        password: root
+    sharding:
+      tables:
+        user:
+          actualDataNodes: test.user_$->{2022..2022}0$->{7..9},test.user_$->{2022..2022}1$->{0..2}
+          tableStrategy:
+#            hint:
+#              algorithmClassName: com.wk.sharding.algorithm.TableHintShardingAlgorithm
+            standard:
+              # TODO 按照create_time分表的话,如果后面按照id来查询数据怎么办
+              shardingColumn: create_time
+              preciseAlgorithmClassName: com.wk.sharding.algorithm.TableShardingAlgorithm
+
+    props:
+      sql:
+        show: true
 
 
 
