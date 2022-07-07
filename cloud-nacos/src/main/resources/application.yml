@@ -1,0 +1,13 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: nacos-config-import-example
+  cloud:
+    nacos:
+      config:
+        group: DEFAULT_GROUP
+        server-addr: 127.0.0.1:8848
+  config:
+    import:
+      - optional:nacos:test.yml
