@@ -31,6 +31,7 @@
         <mybatis-plus.version>3.5.1</mybatis-plus.version>
         <sharding-jdbc.version>4.1.1</sharding-jdbc.version>
         <freemarker.version>2.3.31</freemarker.version>
+        <nacos-config.version>2021.1</nacos-config.version>
     </properties>
 
     <dependencies>
@@ -102,6 +103,12 @@
                 <groupId>org.freemarker</groupId>
                 <artifactId>freemarker</artifactId>
                 <version>${freemarker.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+                <version>${nacos-config.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
