@@ -1,0 +1,8 @@
+anhui:
+  xiaoxian:
+    shiyan:
+      name: 悟空
+
+server:
+  port: 8120
+
