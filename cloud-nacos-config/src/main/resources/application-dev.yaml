@@ -4,5 +4,5 @@ anhui:
       name: 悟空
 
 server:
-  port: 8120
+  port: 8122
 

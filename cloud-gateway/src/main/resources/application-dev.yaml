@@ -1,0 +1,58 @@
+server:
+  port: 8120
+spring:
+  application:
+    ## 指定服务名称，在nacos中的名字
+    name: cloud-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        # 不想使用 Nacos 作为您的服务注册与发现,设置为false
+        enabled: true
+      username: nacos
+      password: nacos
+      config:
+        server-addr: 127.0.0.1:8848
+        ## 指定文件后缀未yaml
+        file-extension: yaml
+        refresh-enabled: true
+    gateway:
+      ## 路由
+      routes:
+        ## id只要唯一即可，名称任意
+        - id: provider_1
+          uri: lb://nacos-provider
+          ## Spring Cloud Gateway中的断言命名都是有规范的，格式：xxxRoutePredicateFactory
+          ## 配置断言
+          predicates:
+            ## Path Route Predicate Factory断言，满足/gateway/provider/**这个请求路径的都会被路由到http://localhost:9024这个uri中
+            - Path=/echo/**
+            ## Weight Route Predicate Factory，同一分组按照权重进行分配流量，这里分配了80%
+            ## 第一个group1是分组名，第二个参数是权重
+            ##- Weight=group1, 8
+          ## 过滤器的名称只需要写前缀，过滤器命名必须是xxxGatewayFilterFactory（包括自定义）
+          ## 配置过滤器（局部）
+          filters:
+            - AddResponseHeader=X-Response-Foo, Bar
+            ## AuthorizeGatewayFilterFactory自定义过滤器配置，值为true需要验证授权，false不需要
+            ##- Authorize=true
+      discovery:
+        locator:
+          # 开启gateway从nacos获取列表
+          enabled: true
+
+        ## id必须唯一
+#        - id: provider_2
+#          ## 路由转发的uri
+#          uri: http://127.0.0.1:9095
+#          ## 配置断言
+#          predicates:
+#            ## Path Route Predicate Factory断言，满足/gateway/provider/**这个请求路径的都会被路由到http://localhost:9024这个uri中
+#            - Path=/gateway/provider/**
+#            ## Weight Route Predicate Factory，同一分组按照权重进行分配流量，这里分配了20%
+#            ## 第一个group1是分组名，第二个参数是权重
+#            - Weight=group1, 2
+
+
+
